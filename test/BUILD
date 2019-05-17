@@ -110,3 +110,10 @@ pytest_test(
     ],
     python_version = 3,
 )
+
+pytest_test(
+    name = "purelib_test",
+    src = "purelib_test.py",
+    deps = ["@pip3//tensorflow"],
+    python_version = 3,
+)

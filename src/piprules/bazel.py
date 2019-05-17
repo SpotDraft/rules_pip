@@ -46,7 +46,33 @@ class _PyDistPackageGenerator(object):
         self._create_base_package_build_file()
 
         for data_directory in self._find_data_directories():
+            self._handle_purelib_and_platlib(data_directory)
             _DataPackageGenerator(self.base_package_path, data_directory).generate()
+
+    def _handle_purelib_and_platlib(self, data_directory):
+        full_path = os.path.join(self.base_package_path, data_directory)
+        
+        # Find any lib directories, and move them to the top level.
+        try:
+            data_contents = os.listdir(full_path)
+        except:
+            data_contents = []
+
+        # TODO: This is probably wrong. These have different targets, and probably both need to be
+        # installed.
+        if 'purelib' in full_path:
+            source = full_path # os.path.join(full_path, 'purelib')
+        elif 'platlib' in full_path:
+            source = full_path # os.path.join(full_path, 'platlib')
+        else:
+            source = None
+
+        if source:
+            for f in os.listdir(source):
+                # TODO instead check that the file doesn't already exist
+                if f == 'BUILD':
+                    continue
+                shutil.move(os.path.join(source, f), self.base_package_path)
 
     def _create_base_package_build_file(self):
         # Files with spaces in the name must be excluded
