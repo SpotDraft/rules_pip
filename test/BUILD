@@ -117,3 +117,20 @@ pytest_test(
     deps = ["@pip3//tensorflow"],
     python_version = 3,
 )
+
+pytest_test(
+    name = "namespace_pkgs_test",
+    src = "namespace_pkgs_test.py",
+    deps = ["//src/piprules"],
+    python_version = 3,
+)
+
+pytest_test(
+    name = "google_package_import_test",
+    src = "google_package_import_test.py",
+    deps = [
+        "@pip3//google_cloud_pubsub",
+        "@pip3//google_cloud_vision",
+    ],
+    python_version = 3,
+)

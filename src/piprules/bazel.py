@@ -70,7 +70,7 @@ class _PyDistPackageGenerator(object):
         if source:
             for f in os.listdir(source):
                 # TODO instead check that the file doesn't already exist
-                if f == 'BUILD':
+                if f == 'BUILD' or f == '__init__.py':
                     continue
                 shutil.move(os.path.join(source, f), self.base_package_path)
 
@@ -144,6 +144,8 @@ class _DataPackageGenerator(object):
         return os.path.relpath(self.data_directory, start=self.base_package_path)
 
     def generate(self):
+        if os.path.exists(self.package_path):
+            os.remove(self.package_path)
         os.symlink(self.symlink_target, self.package_path)
         self._create_build_files()
 

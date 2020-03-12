@@ -5,3 +5,5 @@ pytest
 pytest-mock
 pyyaml
 tensorflow # for purelib
+google-cloud-vision
+google-cloud-pubsub
